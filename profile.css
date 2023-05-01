@@ -96,10 +96,13 @@ html
     left: 45%;
 }
 
+#judo2
+{
+    transition: all 0.2s linear;
+    
+}
+
 #judo2:hover
 {
-    width: max-content;
-    height: max-content;
-    position: absolute;
-    right: 10%;
+    transform: scale(2.0);
 }
