@@ -1,0 +1,106 @@
+/* Class*/
+.header_link
+{
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    font-weight: 700;
+    font-family: 'Righteous', cursive;
+    font-size: 25px;
+}
+.header_link:hover
+{
+    border-bottom: 1px solid black;
+}
+
+.gallery
+{
+    margin: auto;
+   padding-top: 150px; 
+}
+
+.gallery2022
+{
+    white-space: nowrap;
+    overflow-x: scroll;
+    width: 100%;
+    margin: 0 auto;
+}
+.gallery2022::-webkit-scrollbar
+{
+    height: 0;
+    background: transparent;
+}
+
+.gallery2022 img
+{
+    display: inline block;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    width: auto;
+    height: 500px;
+}
+
+.gallery2023
+{
+    white-space: nowrap;
+    overflow-x: scroll;
+    width: 100%;
+    margin: 0 auto;
+}
+.gallery2023::-webkit-scrollbar
+{
+    height: 0;
+    background: transparent;
+}
+
+.gallery2023 img
+{
+    display: inline block;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    width: auto;
+    height: 500px;
+}
+
+.gallery_h
+{
+    font-size: 30px;
+}
+
+/* ID */
+#header
+{
+    background-color: rgb(255, 255, 255);
+}
+
+#header_img
+{
+    position: fixed;
+    right: 0;
+}
+
+#PROFILE
+{
+    position: fixed;
+    top: 47px;
+    left: 58%;
+    
+}
+
+#STUDY
+{
+    position: fixed;
+    top: 47px;
+    left: 66.3%;
+}
+
+#ACTIVITY
+{
+    position: fixed;
+    top: 47px;
+    left: 73%;
+    border-bottom: 1px solid black;
+}
