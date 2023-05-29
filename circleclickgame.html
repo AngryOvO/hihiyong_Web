@@ -26,7 +26,10 @@
       let gamenumber = 0;
       let startpagenum = true;
       let circlenum = 4;
+      let game1playing = false;
       let game2playing = false;
+      let colornum = 0;
+      let colortoken = 1000000;
 
       function sleep(ms) {
         const wakeUpTime = Date.now() + ms;
@@ -113,8 +116,8 @@
       function drawCircle() {
         ctx.beginPath(); // 원을 그림
         ctx.arc(circleX, circleY, circleRadius, 0, Math.PI * 2); // 원의 중심 좌표, 반지름, 시작 각도, 끝 각도
-        ctx.fillStyle = 'blue'; // 원 색상 파란색으로
-        ctx.fill(); // 원 채움
+        
+        setColor()
         ctx.closePath(); // 원 그리기 종료
       }
 
@@ -182,6 +185,59 @@
           level2 -= 60;
         }
       }
+
+      function setColor(){
+        if(score >= 0 && score < 5)
+        {
+          ctx.fillStyle = 'blue';
+          ctx.fill(); // 원 내부 색상 채움
+        }
+        else if(score >= 5 && score < 10)
+        {
+          ctx.fillStyle = 'red';
+          ctx.fill(); // 원 내부 색상 채움
+        }
+        else if(score >= 10 && score < 15)
+        {
+          ctx.fillStyle = 'yellow';
+          ctx.fill(); // 원 내부 색상 채움
+        }
+        else if(score >= 15 && score < 20)
+        {
+          ctx.fillStyle = 'green';
+          ctx.fill(); // 원 내부 색상 채움
+        }
+        else if(score >= 20 && score < 25)
+        {
+          ctx.fillStyle = 'purple';
+          ctx.fill(); // 원 내부 색상 채움
+        }
+        else if(score >= 25 && score < 30)
+        {
+          ctx.fillStyle = 'orange';
+          ctx.fill(); // 원 내부 색상 채움
+        }
+        else if(score >= 30 && score < 35)
+        {
+          ctx.fillStyle = 'pink';
+          ctx.fill(); // 원 내부 색상 채움
+        }
+        else if(score >= 35 && score < 40)
+        {
+          ctx.fillStyle = 'brown';
+          ctx.fill(); // 원 내부 색상 채움
+        }
+        else if(score >= 40 && score < 45)
+        {
+          ctx.fillStyle = 'gray';
+          ctx.fill(); // 원 내부 색상 채움
+        }
+        else if(score >= 45 && score < 50)
+        {
+          ctx.fillStyle = 'black';
+          ctx.fill(); // 원 내부 색상 채움
+        }
+      }
       
       // 게임 초기화 함수
       function resetGame()
@@ -201,8 +257,8 @@
           ctx.clearRect(0, 0, canvas.width, canvas.height);
           drawCircle();
           shrinkCircle();
-          drawScore();
-
+          drawScore(); 
+          
           requestAnimationFrame(draw1);
 
         }
