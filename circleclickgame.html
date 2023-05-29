@@ -21,28 +21,92 @@
       let circleRadius = 50;
       let circleSpeed = 2;
       let level = 0.5;
+      let level2 = 1000;
       let score = 0;
+      let gamenumber = 0;
+      let startpagenum = true;
+      let circlenum = 4;
+      let game2playing = false;
+
+      function sleep(ms) {
+        const wakeUpTime = Date.now() + ms;
+        while (Date.now() < wakeUpTime) {}
+      }
+
+
+      // 사각형 테두리 색 설정
+      function startpage() {
+        ctx.strokeStyle = 'black';
+        // 사각형 테두리 그리기
+        ctx.strokeRect(200, 150, 100, 100);
+        // 사각형 내부에 글씨 삽입
+        ctx.font = '20px Arial';
+        ctx.fillStyle = 'black';
+        ctx.fillText('GAME2', 215, 210);
+
+        // 사각형 테두리 색 설정
+        ctx.strokeStyle = 'black';
+        // 사각형 테두리 그리기
+        ctx.strokeRect(90, 150, 100, 100);
+        // 사각형 내부에 글씨 삽입
+        ctx.font = '20px Arial';
+        ctx.fillStyle = 'black';
+        ctx.fillText('GAME1', 105, 210);
+      }
+
+      startpage();
+      
+
+      //사각형 클릭시 함수 실행
+      
+        canvas.addEventListener('click', handleClick2);
+        function handleClick2(event) {
+          const clickX = event.clientX - canvas.offsetLeft;
+          const clickY = event.clientY - canvas.offsetTop;
+        
+          if(clickX >= 90 && clickX <= 190 && clickY >= 150 && clickY <= 250 && startpagenum === true)
+          {
+            gamenumber = 1;
+            startpagenum = false;
+            draw1();
+          }
+          else if(clickX >= 200 && clickX <= 300 && clickY >= 150 && clickY <= 250 && startpagenum === true)
+          {
+            gamenumber = 2;
+            startpagenum = false;
+            draw2();
+          }
+        }
+      
+      
 
       // 클릭 이벤트 생성
-      canvas.addEventListener('click', handleClick);
+        canvas.addEventListener('click', handleClick);
         // 클릭했을 때 원의 중심과 클릭한 위치의 거리를 구함
-      function handleClick(event) {
-        const clickX = event.clientX - canvas.offsetLeft;
-        const clickY = event.clientY - canvas.offsetTop;
-        const distance = Math.sqrt(
-          Math.pow(clickX - circleX, 2) + Math.pow(clickY - circleY, 2)
-        );
-        // 원의 중심과 클릭한 위치의 거리가 원의 반지름보다 작으면 점수를 올리고 원을 다시 그림
-        if (distance <= circleRadius) {
-          score++;
-          resetCircle();
+          function handleClick(event) {
+            const clickX = event.clientX - canvas.offsetLeft;
+            const clickY = event.clientY - canvas.offsetTop;
+            const distance = Math.sqrt(
+            Math.pow(clickX - circleX, 2) + Math.pow(clickY - circleY, 2)
+          );
+          // 원의 중심과 클릭한 위치의 거리가 원의 반지름보다 작으면 점수를 올리고 원을 다시 그림
+          if (distance <= circleRadius) {
+            score++;
+            resetCircle();
+            setLevel();
+          }
         }
-      }
+      
       // 원을 다시 그리는 함수
       function resetCircle() {
         circleX = Math.random() * (canvas.width - 2 * circleRadius) + circleRadius;
         circleY = Math.random() * (canvas.height - 2 * circleRadius) + circleRadius;
-        circleRadius = 50;
+        
+        if(gamenumber === 1)
+        {
+          circleRadius = 50;
+        }
+        circlenum = 3;
         level = 0.5;
       }
       // 원 생성 함수
@@ -54,18 +118,52 @@
         ctx.closePath(); // 원 그리기 종료
       }
 
+      function drawRandomCircle(){
+        ctx.beginPath(); // 원을 그림
+        circleRadius = 20;
+        ctx.arc(circleX, circleY, circleRadius, 0, Math.PI * 2); // 원의 중심 좌표, 반지름, 시작 각도, 끝 각도
+        //원 테두리 색상 검정
+        ctx.strokeStyle = 'black';
+        //원 내부 색상 흰색
+        ctx.fillStyle = 'white';
+        ctx.stroke(); // 원 테두리 그림
+        ctx.closePath(); // 원 그리기 종료
+        //원 내부 숫자 삽입
+        ctx.font = '20px Arial';
+        ctx.fillStyle = 'black';
+        ctx.fillText(circlenum, circleX-5, circleY+5);
+
+      }
+
       // 원을 점점 작게 만드는 함수
       function shrinkCircle() {
         if (circleRadius > 5) {
-            setLevel();
           circleRadius -= level;
         } else {
           resetCircle();
           // 원이 너무 작아지면 게임이 끝남
-          if (score > 0) {
+          if (score > -1) {
             alert('Game over! Your score is ' + score); // 게임이 끝나면 점수를 알려줌
-            resetGame()
+            resetGame();
+            startpage();
           }
+        }
+      }
+      // game2 원 수명 감소 함수
+      function Circlelifedown(){
+        if(circlenum > 0 ){
+          if(game2playing)
+          {
+            sleep(level2);
+          }
+          circlenum--;
+          game2playing = true;
+        }
+        else{
+          alert('Game over! Your score is ' + score); // 게임이 끝나면 점수를 알려줌
+          resetGame();
+          startpage();
+          game2playing = false;
         }
       }
 
@@ -79,6 +177,10 @@
       // 레벨 조정 함수
       function setLevel() {
         level = 0.5 + score / 50;
+        if(level2 > 60)
+        {
+          level2 -= 60;
+        }
       }
       
       // 게임 초기화 함수
@@ -86,22 +188,42 @@
       {
         score = 0;
         level = 0;
-        resetCircle();
+        level2 = 1000;
+        circlenum = 3;
+        startpagenum = true;
+        game2playing = true;
       }
 
-      // 게임 실행 함수
-      function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // 게임1 실행 함수
+      function draw1() {
+        if(startpagenum === false){
 
-        drawCircle();
-        shrinkCircle();
-        drawScore();
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          drawCircle();
+          shrinkCircle();
+          drawScore();
 
-        requestAnimationFrame(draw);
+          requestAnimationFrame(draw1);
+
+        }
+      }
+      // 게임2 실행 함수
+      function draw2(timestamp) {
+        if(startpagenum === false){
+        
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          drawRandomCircle();
+          Circlelifedown();
+          drawScore();
+
+          requestAnimationFrame(draw2);
+
+        }
       }
 
+      
 
-      draw();
+      
     </script>
   </body>
 </html>
