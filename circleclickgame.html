@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>에임 연습 게임</title>
+    <style>
+      #gameCanvas {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+
+    <script>
+      const canvas = document.getElementById('gameCanvas'); //캔버스를 가져옴
+      const ctx = canvas.getContext('2d'); //캔버스의 2d 그래픽을 가져옴
+    
+      //캔버스 원 초기값
+      let circleX = canvas.width / 2;
+      let circleY = canvas.height / 2;
+      let circleRadius = 50;
+      let circleSpeed = 2;
+      let level = 0.5;
+      let score = 0;
+
+      // 클릭 이벤트 생성
+      canvas.addEventListener('click', handleClick);
+        // 클릭했을 때 원의 중심과 클릭한 위치의 거리를 구함
+      function handleClick(event) {
+        const clickX = event.clientX - canvas.offsetLeft;
+        const clickY = event.clientY - canvas.offsetTop;
+        const distance = Math.sqrt(
+          Math.pow(clickX - circleX, 2) + Math.pow(clickY - circleY, 2)
+        );
+        // 원의 중심과 클릭한 위치의 거리가 원의 반지름보다 작으면 점수를 올리고 원을 다시 그림
+        if (distance <= circleRadius) {
+          score++;
+          resetCircle();
+        }
+      }
+      // 원을 다시 그리는 함수
+      function resetCircle() {
+        circleX = Math.random() * (canvas.width - 2 * circleRadius) + circleRadius;
+        circleY = Math.random() * (canvas.height - 2 * circleRadius) + circleRadius;
+        circleRadius = 50;
+        level = 0.5;
+      }
+      // 원 생성 함수
+      function drawCircle() {
+        ctx.beginPath(); // 원을 그림
+        ctx.arc(circleX, circleY, circleRadius, 0, Math.PI * 2); // 원의 중심 좌표, 반지름, 시작 각도, 끝 각도
+        ctx.fillStyle = 'blue'; // 원 색상 파란색으로
+        ctx.fill(); // 원 채움
+        ctx.closePath(); // 원 그리기 종료
+      }
+
+      // 원을 점점 작게 만드는 함수
+      function shrinkCircle() {
+        if (circleRadius > 5) {
+            setLevel();
+          circleRadius -= level;
+        } else {
+          resetCircle();
+          // 원이 너무 작아지면 게임이 끝남
+          if (score > 0) {
+            alert('Game over! Your score is ' + score); // 게임이 끝나면 점수를 알려줌
+            resetGame()
+          }
+        }
+      }
+
+      // 점수 출력 함수
+      function drawScore() {
+        ctx.font = '20px Arial';
+        ctx.fillStyle = 'black';
+        ctx.fillText('Score: ' + score, 10, 30);
+      }
+
+      // 레벨 조정 함수
+      function setLevel() {
+        level = 0.5 + score / 50;
+      }
+      
+      // 게임 초기화 함수
+      function resetGame()
+      {
+        score = 0;
+        level = 0;
+        resetCircle();
+      }
+
+      // 게임 실행 함수
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        drawCircle();
+        shrinkCircle();
+        drawScore();
+
+        requestAnimationFrame(draw);
+      }
+
+
+      draw();
+    </script>
+  </body>
+</html>
